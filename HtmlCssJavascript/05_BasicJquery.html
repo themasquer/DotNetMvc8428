@@ -36,7 +36,7 @@
                 //}
                 var emptyFound = false;
                 $(".myinputclass").each(function () {
-                    if ($(this).val() == "") {
+                    if ($(this).val().trim() == "") {
                         emptyFound = true;
                     }
                 });
