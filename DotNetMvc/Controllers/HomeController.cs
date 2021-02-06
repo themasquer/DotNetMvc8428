@@ -10,7 +10,7 @@ namespace DotNetMvc.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return View("Welcome");
         }
 
         public ActionResult About()
