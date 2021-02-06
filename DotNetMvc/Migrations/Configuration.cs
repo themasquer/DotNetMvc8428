@@ -23,7 +23,6 @@ namespace DotNetMvc.Migrations
             //  to avoid creating duplicate seed data.
 
             #region Entity Framework DbSet'leri üzerinden ilk verileri oluşturma
-            // veri listelerini oluşturma
             List<Movie> movieList = new List<Movie>()
             {
                 new Movie() {Id = 1, Name = "Avatar", ProductionYear = "2009", BoxOfficeReturn = 1000000},
@@ -52,13 +51,7 @@ namespace DotNetMvc.Migrations
                 new MovieDirector() {Id = 4, MovieId = 4, DirectorId = 1, Movie = movieList[3], Director = directorList[0]}
             };
 
-            // context güncelleme
-            // tablo verilerini temizleme
             var movieDirectors = context.MovieDirectors.ToList();
-            //foreach (var movieDirector in movieDirectors)
-            //{
-            //    context.MovieDirectors.Remove(movieDirector);
-            //}
             context.MovieDirectors.RemoveRange(movieDirectors);
             var reviews = context.Reviews.ToList();
             context.Reviews.RemoveRange(reviews);
@@ -68,44 +61,36 @@ namespace DotNetMvc.Migrations
             context.Directors.RemoveRange(directors);
             context.SaveChanges();
 
-            // tablo verilerini ekleme
             context.MovieDirectors.AddRange(movieDirectorList);
             context.Reviews.AddRange(reviewList);
-
-            // MovieDirectors ve Reviews içinde Movie ve Director'ları set ettiğimiz için aşağıdakileri çalıştırmamıza gerek yok!
-            ////context.Movies.AddRange(movieList);
-            ////context.Directors.AddRange(directorList);
             #endregion
 
             #region SQL üzerinden ilk verileri oluşturma (Herhangi bir SQL script dosyası üzerinden de (~/SQLs/MoviesMvc8428DB.sql) yapılabilir)
-            // tablo verilerini temizleme
-            context.Database.ExecuteSqlCommand("delete from MovieDirectors");
-            context.Database.ExecuteSqlCommand("delete from Reviews");
-            context.Database.ExecuteSqlCommand("delete from Movies");
-            context.Database.ExecuteSqlCommand("delete from Directors");
+            //context.Database.ExecuteSqlCommand("delete from MovieDirectors");
+            //context.Database.ExecuteSqlCommand("delete from Reviews");
+            //context.Database.ExecuteSqlCommand("delete from Movies");
+            //context.Database.ExecuteSqlCommand("delete from Directors");
 
-            // tablolardaki Id'leri sıfırlama (1'den başlamasını sağlama)
-            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('MovieDirectors', RESEED, 0)");
-            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Reviews', RESEED, 0)");
-            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Movies', RESEED, 0)");
-            context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Directors', RESEED, 0)");
+            //context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('MovieDirectors', RESEED, 0)");
+            //context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Reviews', RESEED, 0)");
+            //context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Movies', RESEED, 0)");
+            //context.Database.ExecuteSqlCommand("DBCC CHECKIDENT ('Directors', RESEED, 0)");
 
-            // tablo verilerini ekleme
-            context.Database.ExecuteSqlCommand("INSERT [dbo].[Directors] ([Name], [Surname], [Retired]) VALUES (N'James', N'Cameron', 0)");
-            context.Database.ExecuteSqlCommand("INSERT [dbo].[Directors] ([Name], [Surname], [Retired]) VALUES (N'Guy', N'Ritchie', 0)");
-            context.Database.ExecuteSqlCommand("INSERT [dbo].[Directors] ([Name], [Surname], [Retired]) VALUES (N'F. Gary', N'Gray', 0)");
+            //context.Database.ExecuteSqlCommand("INSERT [dbo].[Directors] ([Name], [Surname], [Retired]) VALUES (N'James', N'Cameron', 0)");
+            //context.Database.ExecuteSqlCommand("INSERT [dbo].[Directors] ([Name], [Surname], [Retired]) VALUES (N'Guy', N'Ritchie', 0)");
+            //context.Database.ExecuteSqlCommand("INSERT [dbo].[Directors] ([Name], [Surname], [Retired]) VALUES (N'F. Gary', N'Gray', 0)");
 
-            context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Avatar', N'2009', 1000000)");
-            context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Sherlock Holmes', N'2009', NULL)");
-            context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Law Abiding Citizen', N'2009', 300000)");
-            context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Aliens', N'1986', 10000000)");
+            //context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Avatar', N'2009', 1000000)");
+            //context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Sherlock Holmes', N'2009', NULL)");
+            //context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Law Abiding Citizen', N'2009', 300000)");
+            //context.Database.ExecuteSqlCommand("INSERT [dbo].[Movies] ([Name], [ProductionYear], [BoxOfficeReturn]) VALUES(N'Aliens', N'1986', 10000000)");
 
-            context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (1, 1)");
-            context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (2, 2)");
-            context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (3, 3)");
-            context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (4, 1)");
+            //context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (1, 1)");
+            //context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (2, 2)");
+            //context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (3, 3)");
+            //context.Database.ExecuteSqlCommand("insert into MovieDirectors (MovieId, DirectorId) values (4, 1)");
 
-            context.Database.ExecuteSqlCommand("insert into Reviews (Content, Rating, Reviewer, MovieId) values ('Very good movie.', 9, 'Çağıl Alsaç', 1)");
+            //context.Database.ExecuteSqlCommand("insert into Reviews (Content, Rating, Reviewer, MovieId) values ('Very good movie.', 9, 'Çağıl Alsaç', 1)");
             #endregion
         }
     }
