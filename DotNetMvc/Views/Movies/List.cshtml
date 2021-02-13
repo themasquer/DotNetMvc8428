@@ -1,0 +1,68 @@
+﻿@*@model List<DotNetMvc.Models.MovieModel>*@
+@model List<MovieModel>
+
+@{
+    ViewBag.Title = "Movie List";
+}
+
+<div class="paddingtop">
+    <h2>@ViewBag.Title</h2>
+
+    @*<a href="/Movies/Create">New Movie</a>*@
+    @Html.ActionLink("New Movie", "Create", "Movies")
+
+    <table class="table">
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Production Year
+            </th>
+            <th>
+                Box Office Return
+            </th>
+            <th>
+                Directors
+            </th>
+            <th>
+
+            </th>
+        </tr>
+        @foreach (var movie in Model)
+        {
+            <tr>
+                <td>
+                    @movie.Name
+                </td>
+                <td>
+                    @movie.ProductionYear
+                </td>
+                <td>
+                    @movie.BoxOfficeReturn
+                </td>
+                <td>
+                    @*@foreach (var director in movie.Directors)
+                        {
+                            <span>@(director.Name + " " + director.Surname)</span>
+                            <br />
+                        }*@
+                    @{
+                        string directors = "";
+                    }
+                    @foreach (var director in movie.Directors)
+                    {
+                        directors += director.Name + " " + director.Surname + "<br />";
+                    }
+                    @Html.Raw(directors)
+                </td>
+                <td>
+                    @Html.ActionLink("Details", "Details", new { id = movie.Id }) | 
+                    @*@Html.ActionLink("Edit", "Edit", new { id = movie.Id })*@
+                    <a href="@Url.Action("Edit", new { id = movie.Id })">Edit</a>
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+

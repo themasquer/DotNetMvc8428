@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Movies>
+  <Movie>
+    <Name>Avatar</Name>
+    <ProductionYear>2009</ProductionYear>
+    <BoxOfficeReturn>1000000</BoxOfficeReturn>
+  </Movie>
+  <Movie>
+    <Name>Sherlock Holmes</Name>
+    <ProductionYear>2009</ProductionYear>
+    <BoxOfficeReturn></BoxOfficeReturn>
+  </Movie>
+  <Movie>
+    <Name>Law Abiding Citizen</Name>
+    <ProductionYear>2009</ProductionYear>
+    <BoxOfficeReturn>300000</BoxOfficeReturn>
+  </Movie>
+  <Movie>
+    <Name>Aliens</Name>
+    <ProductionYear>1986</ProductionYear>
+    <BoxOfficeReturn>10000000</BoxOfficeReturn>
+  </Movie>
+</Movies>
