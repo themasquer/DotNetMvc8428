@@ -1,0 +1,51 @@
+﻿
+@model MovieModel
+
+@{
+    ViewBag.Title = "Delete Movie";
+}
+
+<div class="paddingtop">
+    <h2>Delete Movie</h2>
+    @*<dl class="row">
+        <dt class="col-2">
+            @Html.DisplayNameFor(m => m.Name)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(m => m.Name)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(m => m.BoxOfficeReturn)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(m => m.BoxOfficeReturn)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(m => m.ProductionYear)
+        </dt>
+        <dd class="col-10">
+            @Html.DisplayFor(m => m.ProductionYear)
+        </dd>
+        <dt class="col-2">
+            @Html.DisplayNameFor(m => m.DirectorNamesHtml)
+        </dt>
+        <dd class="col-10">
+            @Html.Raw(Model.DirectorNamesHtml)
+        </dd>
+    </dl>*@
+    @Html.Partial("_Details", Model)
+    <p>
+        Are you sure?
+    </p>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.Id)
+        <button type="submit" class="btn btn-danger">Yes</button>
+        @:&nbsp;
+        <text>&nbsp;</text>
+        @:&nbsp;
+        @Html.ActionLink("No", "List", null, new {@class = "btn btn-success"})
+    }
+</div>
+

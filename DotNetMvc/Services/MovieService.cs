@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using DotNetMvc.Contexts;
 using DotNetMvc.Models;
@@ -39,7 +40,8 @@ namespace DotNetMvc.Services
                     MovieId = r.MovieId,
                     Rating = r.Rating,
                     Reviewer = r.Reviewer
-                }).ToList()
+                }).ToList(),
+                DirectorIds = m.MovieDirectors.Select(md => md.DirectorId).ToList()
             });
         }
 
@@ -51,7 +53,15 @@ namespace DotNetMvc.Services
                 {
                     Name = model.Name,
                     ProductionYear = model.ProductionYear,
-                    BoxOfficeReturn = model.BoxOfficeReturn
+                    BoxOfficeReturn = model.BoxOfficeReturn,
+                    //MovieDirectors = (model.DirectorIds == null ? new List<int>() : model.DirectorIds).Select(d => new MovieDirector()
+                    //{
+                    //    DirectorId = d
+                    //}).ToList()
+                    MovieDirectors = (model.DirectorIds ?? new List<int>()).Select(d => new MovieDirector()
+                    {
+                        DirectorId = d
+                    }).ToList()
                 };
                 _db.Movies.Add(entity);
                 _db.SaveChanges();
@@ -78,6 +88,24 @@ namespace DotNetMvc.Services
             catch (Exception e)
             {
                 return false;
+            }
+        }
+
+        public bool Delete(int id)
+        {
+            try
+            {
+                Movie entity = _db.Movies.Find(id);
+                _db.MovieDirectors.RemoveRange(entity.MovieDirectors);
+                if (entity.Reviews != null && entity.Reviews.Count > 0)
+                    return false;
+                _db.Movies.Remove(entity);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception exc)
+            {
+                throw exc;
             }
         }
     }

@@ -14,11 +14,13 @@ namespace DotNetMvc.Controllers
         // CRUD: Create, Read, Update, Delete
         private readonly MoviesContext _db;
         private readonly MovieService _movieService;
+        private readonly DirectorService _directorService;
 
         public MoviesController()
         {
             _db = new MoviesContext();
             _movieService = new MovieService(_db);
+            _directorService = new DirectorService(_db);
         }
 
         // GET: Movies
@@ -28,8 +30,15 @@ namespace DotNetMvc.Controllers
             return View(movies);
         }
 
-        public ActionResult List()
+        public ActionResult List(int? result = null)
         {
+            if (result.HasValue)
+            {
+                if (result == 1)
+                    TempData["Message"] = "Movie deleted successfully.";
+                else
+                    TempData["Message"] = "Movie could not be deleted because there are relational records!";
+            }
             var movies = _movieService.GetQuery().ToList();
             return View("List", movies);
         }
@@ -43,12 +52,14 @@ namespace DotNetMvc.Controllers
                 years.Add(year);
             }
             ViewBag.Years = years;
+            List<DirectorModel> directors = _directorService.GetQuery().ToList();
+            ViewBag.Directors = directors;
             //return new ViewResult();
             return View();
         }
 
         [HttpPost]
-        public ActionResult Create(string Name, double? BoxOfficeReturn, string ProductionYear)
+        public ActionResult Create(string Name, double? BoxOfficeReturn, string ProductionYear, List<int> DirectorIds)
         {
             //return Content("Movie created: " + "Name = " + Name + ", BoxOfficeReturn = " + BoxOfficeReturn + ", ProductionYear = " + ProductionYear);
             if (string.IsNullOrWhiteSpace(Name) || Name.Length > 250)
@@ -57,7 +68,10 @@ namespace DotNetMvc.Controllers
             {
                 Name = Name,
                 BoxOfficeReturn = BoxOfficeReturn,
-                ProductionYear = ProductionYear
+                ProductionYear = ProductionYear,
+                //DirectorIds = DirectorIds == null ? new List<int>() : DirectorIds
+                //DirectorIds = DirectorIds ?? new List<int>()
+                DirectorIds = DirectorIds
             };
             bool result = _movieService.Add(model);
             if (result)
@@ -108,6 +122,9 @@ namespace DotNetMvc.Controllers
             SelectList yearSelectList = new SelectList(yearSelectListItems, "Value", "Text", model.ProductionYear);
             //ViewBag.Years = yearSelectList;
             ViewData["Years"] = yearSelectList;
+            List<DirectorModel> directors = _directorService.GetQuery().ToList();
+            MultiSelectList directorMultiSelectList = new MultiSelectList(directors, "Id", "FullName", model.DirectorIds);
+            ViewData["Directors"] = directorMultiSelectList;
             return View(model);
         }
 
@@ -136,6 +153,46 @@ namespace DotNetMvc.Controllers
             SelectList yearSelectList = new SelectList(yearSelectListItems, "Value", "Text", model.ProductionYear);
             ViewBag.Years = yearSelectList;
             return View(model);
+        }
+
+        public ActionResult DeleteMovie(int? id)
+        {
+            try
+            {
+                if (id == null)
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                bool result = _movieService.Delete(id.Value);
+                if (result)
+                    TempData["Message"] = "Movie deleted successfully.";
+                else
+                    TempData["Message"] = "Movie could not be deleted because there are relational records!";
+                return RedirectToAction("List");
+            }
+            catch (Exception exc)
+            {
+                return View("Error");
+            }
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            if(id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            MovieModel model = _movieService.GetQuery().SingleOrDefault(e => e.Id == id);
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int? id)
+        {
+            if (id == null)
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            bool result = _movieService.Delete(id.Value);
+            if (result)
+                return RedirectToAction("List", new {result = 1});
+            return RedirectToAction("List", new {result = 0});
         }
 
         //public ContentResult Edit()

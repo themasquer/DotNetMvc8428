@@ -53,6 +53,12 @@
             </div>
         </div>
         <div class="form-group row">
+            @Html.LabelFor(m => m.DirectorIds, new { @class = "col-sm-2 col-form-label" })
+            <div class="col-sm-10">
+                @Html.ListBoxFor(m => m.DirectorIds, ViewData["Directors"] as MultiSelectList, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group row">
             <div class="col-sm-10">
                 <button type="submit" class="btn btn-primary">Submit</button>
                 &nbsp;&nbsp;&nbsp;

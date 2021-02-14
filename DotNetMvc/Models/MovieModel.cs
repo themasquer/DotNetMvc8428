@@ -1,24 +1,56 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace DotNetMvc.Models
 {
     public class MovieModel
     {
-        //todo: Validation özelleştirme
+        // MVC FluentValidation NuGet package: https://docs.fluentvalidation.net/en/latest/mvc5.html
+
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(250)]
+        //[Required(ErrorMessage = "Name must not be empty!")]
+        [Required(ErrorMessage = "{0} must not be empty!")]
+        //[StringLength(250, ErrorMessage = "Name must have maximum 250 characters!")]
+        [StringLength(250, ErrorMessage = "{0} must have maximum {1} characters!")]
         public string Name { get; set; }
 
-        [Required]
-        [StringLength(4)]
+        //[Required(ErrorMessage = "Production Year must not be emty!")]
+        [Required(ErrorMessage = "{0} must not be emty!")]
+        [DisplayName("Production Year")]
         public string ProductionYear { get; set; }
 
+        [DisplayName("Box Office Return")]
         public double? BoxOfficeReturn { get; set; }
 
         public List<DirectorModel> Directors { get; set; }
+
+        private string _directorNamesHtml;
+
+        [DisplayName("Directors")]
+        public string DirectorNamesHtml
+        {
+            get
+            {
+                _directorNamesHtml = "";
+                if (Directors != null && Directors.Count > 0)
+                {
+                    foreach (DirectorModel directorModel in Directors)
+                    {
+                        _directorNamesHtml += directorModel.Name + " " + directorModel.Surname + "<br />";
+                    }
+                }
+                return _directorNamesHtml;
+            }
+        }
+
+        private List<int> _directorIds;
+
+        [DisplayName("Directors")]
+        public List<int> DirectorIds { get; set; }
+
         public List<ReviewModel> Reviews { get; set; }
     }
 }
