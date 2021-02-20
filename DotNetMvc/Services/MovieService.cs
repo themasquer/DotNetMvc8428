@@ -81,6 +81,14 @@ namespace DotNetMvc.Services
                 entity.Name = model.Name;
                 entity.ProductionYear = model.ProductionYear;
                 entity.BoxOfficeReturn = model.BoxOfficeReturn;
+                _db.MovieDirectors.RemoveRange(entity.MovieDirectors);
+                if (model.DirectorIds != null && model.DirectorIds.Count > 0)
+                {
+                    entity.MovieDirectors = model.DirectorIds.Select(d => new MovieDirector()
+                    {
+                        DirectorId = d
+                    }).ToList();
+                }
                 _db.Entry(entity).State = EntityState.Modified;
                 _db.SaveChanges();
                 return true;

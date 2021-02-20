@@ -26,3 +26,7 @@ textarea {
 div.paddingtop {
     padding-top: 20px;
 }
+
+.divcheckboxpaddingtop {
+    padding-top: 8px;
+}

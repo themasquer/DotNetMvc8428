@@ -1,0 +1,33 @@
+﻿@*@model DotNetMvc.Entities.Director*@
+@model DirectorModel
+
+@{
+    ViewBag.Title = "Create New Director";
+}
+
+<div class="paddingtop">
+    <h2>Create New Director</h2>
+    
+    @if (ViewData["Message"] != null)
+    {
+        <p class="text-danger">@ViewData["Message"].ToString()</p>
+    }
+
+    @Html.Partial("_CreateEdit", Model)
+
+    <div>
+        @Html.ActionLink("Back to Director List", "Index")
+    </div>
+</div>
+
+@section scripts
+{
+    @*<script src="~/Scripts/jquery.validate.min.js"></script>*@
+    @*<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+    @Scripts.Render("~/bundles/jqueryval")
+    
+    <script>
+        //alert("Create New Director");
+        console.log("Create New Director");
+    </script>
+}

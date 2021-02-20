@@ -46,8 +46,6 @@ namespace DotNetMvc.Models
             }
         }
 
-        private List<int> _directorIds;
-
         [DisplayName("Directors")]
         public List<int> DirectorIds { get; set; }
 
