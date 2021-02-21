@@ -40,13 +40,13 @@ namespace DotNetMvc.Migrations
 
             List<Review> reviewList = new List<Review>()
             {
-                new Review() {Id = 1, Content = "Very good movie.", Rating = 9, Reviewer = "Çağıl Alsaç", MovieId = 1, Movie = movieList[0]},
-                new Review() {Id = 2, Content = "Nice movie.", Rating = 7, Reviewer = "Leo Alsaç", MovieId = 1, Movie = movieList[0]},
-                new Review() {Id = 3, Content = "Not a bad movie.", Rating = 6, Reviewer = "Angel Alsaç", MovieId = 1, Movie = movieList[0]},
-                new Review() {Id = 4, Content = "Pretty successful!", Rating = 8, Reviewer = "Ali Veli", MovieId = 2, Movie = movieList[1]},
-                new Review() {Id = 5, Content = "Didn't like it.", Rating = 3, Reviewer = "Zeynep Can", MovieId = 3, Movie = movieList[2]},
-                new Review() {Id = 6, Content = "Superb!", Rating = 10, Reviewer = "Cem Tan", MovieId = 4, Movie = movieList[3]},
-                new Review() {Id = 7, Content = "A bad movie.", Rating = 2, Reviewer = "Cem Tan", MovieId = 2, Movie = movieList[1]}
+                new Review() {Id = 1, Content = "Very good movie.", Rating = 9, Reviewer = "Çağıl Alsaç", MovieId = 1, Movie = movieList[0], Date = DateTime.Parse("05.01.2020")},
+                new Review() {Id = 2, Content = "Nice movie.", Rating = 7, Reviewer = "Leo Alsaç", MovieId = 1, Movie = movieList[0], Date = DateTime.Parse("31.12.2018")},
+                new Review() {Id = 3, Content = "Not a bad movie.", Rating = 6, Reviewer = "Angel Alsaç", MovieId = 1, Movie = movieList[0], Date = DateTime.Parse("23.06.2017")},
+                new Review() {Id = 4, Content = "Pretty successful!", Rating = 8, Reviewer = "Ali Veli", MovieId = 2, Movie = movieList[1], Date = DateTime.Parse("15.05.2020")},
+                new Review() {Id = 5, Content = "Didn't like it.", Rating = 3, Reviewer = "Zeynep Can", MovieId = 3, Movie = movieList[2], Date = DateTime.Parse("21.10.2018")},
+                new Review() {Id = 6, Content = "Superb!", Rating = 10, Reviewer = "Cem Tan", MovieId = 4, Movie = movieList[3], Date = DateTime.Parse("04.05.2016")},
+                new Review() {Id = 7, Content = "A bad movie.", Rating = 2, Reviewer = "Cem Tan", MovieId = 2, Movie = movieList[1], Date = DateTime.Parse("19.08.2018")}
             };
 
             List<MovieDirector> movieDirectorList = new List<MovieDirector>()

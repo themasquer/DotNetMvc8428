@@ -175,6 +175,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\MoviesController.cs" />
+    <Compile Include="Controllers\ReviewsController.cs" />
     <Compile Include="Entities\Director.cs" />
     <Compile Include="Entities\Movie.cs" />
     <Compile Include="Entities\MovieDirector.cs" />
@@ -194,6 +195,10 @@
     <Compile Include="Migrations\202102140745430_v3.designer.cs">
       <DependentUpon>202102140745430_v3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202102210711533_v4.cs" />
+    <Compile Include="Migrations\202102210711533_v4.Designer.cs">
+      <DependentUpon>202102210711533_v4.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\DirectorModel.cs" />
@@ -204,6 +209,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\DirectorService.cs" />
     <Compile Include="Services\MovieService.cs" />
+    <Compile Include="Services\ReviewService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -392,6 +398,11 @@
     <Content Include="Views\Directors\Index.cshtml" />
     <Content Include="Views\Directors\_CreateEdit.cshtml" />
     <Content Include="Views\Directors\_Details.cshtml" />
+    <Content Include="Views\Reviews\Create.cshtml" />
+    <Content Include="Views\Reviews\Delete.cshtml" />
+    <Content Include="Views\Reviews\Details.cshtml" />
+    <Content Include="Views\Reviews\Edit.cshtml" />
+    <Content Include="Views\Reviews\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -414,6 +425,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202102140745430_v3.resx">
       <DependentUpon>202102140745430_v3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202102210711533_v4.resx">
+      <DependentUpon>202102210711533_v4.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

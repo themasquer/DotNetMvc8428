@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DotNetMvc.Entities
 {
@@ -12,6 +13,8 @@ namespace DotNetMvc.Entities
 
         [StringLength(200)]
         public string Reviewer { get; set; }
+
+        public DateTime Date { get; set; }
 
         public int MovieId { get; set; }
         public virtual Movie Movie { get; set; }
