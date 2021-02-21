@@ -6,6 +6,8 @@ namespace DotNetMvc.Services
 {
     public class ReviewService
     {
+        // AutoMapper: https://automapper.org/
+
         private readonly MoviesContext _db;
 
         public ReviewService(MoviesContext db)
@@ -15,7 +17,29 @@ namespace DotNetMvc.Services
 
         public IQueryable<ReviewModel> GetQuery()
         {
-            return null;
+            return _db.Reviews.OrderByDescending(r => r.Date).Select(r => new ReviewModel()
+            {
+                Id = r.Id,
+                Content = r.Content,
+                Date = r.Date,
+                Reviewer = r.Reviewer,
+                Rating = r.Rating,
+                MovieId = r.MovieId,
+                Movie = r.Movie != null ? new MovieModel()
+                {
+                    Id = r.Movie.Id,
+                    Name = r.Movie.Name,
+                    BoxOfficeReturn = r.Movie.BoxOfficeReturn,
+                    ProductionYear = r.Movie.ProductionYear,
+                    Directors = r.Movie.MovieDirectors.Select(md => new DirectorModel()
+                    {
+                        Id = md.Director.Id,
+                        Name = md.Director.Name,
+                        Surname = md.Director.Surname,
+                        Retired = md.Director.Retired
+                    }).ToList()
+                } : null
+            });
         }
     }
 }

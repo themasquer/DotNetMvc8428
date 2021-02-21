@@ -15,6 +15,7 @@ namespace DotNetMvc.Models
         [Required(ErrorMessage = "{0} must not be empty!")]
         //[StringLength(250, ErrorMessage = "Name must have maximum 250 characters!")]
         [StringLength(250, ErrorMessage = "{0} must have maximum {1} characters!")]
+        [DisplayName("Movie Name")]
         public string Name { get; set; }
 
         //[Required(ErrorMessage = "Production Year must not be emty!")]

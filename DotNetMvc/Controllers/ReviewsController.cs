@@ -8,18 +8,26 @@ using System.Web;
 using System.Web.Mvc;
 using DotNetMvc.Contexts;
 using DotNetMvc.Entities;
+using DotNetMvc.Services;
 
 namespace DotNetMvc.Controllers
 {
     public class ReviewsController : Controller
     {
         private MoviesContext db = new MoviesContext();
+        private ReviewService reviewService;
+
+        public ReviewsController()
+        {
+            reviewService = new ReviewService(db);
+        }
 
         // GET: Reviews
         public ActionResult Index()
         {
-            var reviews = db.Reviews.Include(r => r.Movie);
-            return View(reviews.ToList());
+            //var reviews = db.Reviews.Include(r => r.Movie);
+            //return View(reviews.ToList());
+            return View(reviewService.GetQuery().ToList());
         }
 
         // GET: Reviews/Details/5
