@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using DotNetMvc.Contexts;
+using DotNetMvc.Entities;
 using DotNetMvc.Models;
 
 namespace DotNetMvc.Services
@@ -49,6 +51,28 @@ namespace DotNetMvc.Services
             for (int i = 1; i <= 10; i++)
             {
                 review.AllRatings.Add(i);
+            }
+        }
+
+        public bool Add(ReviewModel review)
+        {
+            try
+            {
+                Review entity = new Review()
+                {
+                    Content = review.Content,
+                    Date = review.Date.Value,
+                    MovieId = review.MovieId,
+                    Rating = review.Rating,
+                    Reviewer = string.IsNullOrWhiteSpace(review.Reviewer) ? "Anonymous" : review.Reviewer
+                };
+                _db.Reviews.Add(entity);
+                _db.SaveChanges();
+                return true;
+            }
+            catch (Exception exc)
+            {
+                return false;
             }
         }
     }

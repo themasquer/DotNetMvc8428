@@ -18,17 +18,17 @@ namespace DotNetMvc.Models
         [StringLength(200, ErrorMessage = "{0} must be maximum {1} characters.")]
         public string Reviewer { get; set; }
 
-        [Required(ErrorMessage = "{0} must not be empty.")]
+        [Required(ErrorMessage = "{0} must be selected.")]
         [DisplayName("Movie")]
         public int MovieId { get; set; }
 
         public MovieModel Movie { get; set; }
 
         [Required(ErrorMessage = "{0} must not be empty.")]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         [DisplayName("Date")] 
-        public string DateText => Date.ToString("yyyy/MM/dd", new CultureInfo("en"));
+        public string DateText => Date.HasValue ? Date.Value.ToString("yyyy/MM/dd", new CultureInfo("en")) : "";
 
         public List<int> AllRatings { get; set; }
     }

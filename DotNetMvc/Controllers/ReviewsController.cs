@@ -65,16 +65,22 @@ namespace DotNetMvc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Content,Rating,Reviewer,MovieId")] Review review)
+        //public ActionResult Create([Bind(Include = "Id,Content,Rating,Reviewer,MovieId")] Review review)
+        public ActionResult Create(ReviewModel review)
         {
             if (ModelState.IsValid)
             {
-                db.Reviews.Add(review);
-                db.SaveChanges();
+                //db.Reviews.Add(review);
+                //db.SaveChanges();
+                reviewService.Add(review);
+
                 return RedirectToAction("Index");
             }
 
-            ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name", review.MovieId);
+            //ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name", review.MovieId);
+            ViewBag.Movies = new SelectList(movieService.GetQuery().ToList(), "Id", "Name");
+            reviewService.FillAllRatings(review);
+
             return View(review);
         }
 
