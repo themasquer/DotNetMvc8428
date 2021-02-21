@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using DotNetMvc.Contexts;
 using DotNetMvc.Models;
 
@@ -40,6 +41,15 @@ namespace DotNetMvc.Services
                     }).ToList()
                 } : null
             });
+        }
+
+        public void FillAllRatings(ReviewModel review)
+        {
+            review.AllRatings = new List<int>();
+            for (int i = 1; i <= 10; i++)
+            {
+                review.AllRatings.Add(i);
+            }
         }
     }
 }

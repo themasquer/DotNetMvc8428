@@ -26,6 +26,15 @@ namespace DotNetMvc
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/font-awesome.css"));
+
+            bundles.Add(new StyleBundle("~/Content/datepickercss").Include(
+                "~/Plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css"
+                ));
+
+            bundles.Add(new ScriptBundle("~/Content/datepickerjs").Include(
+                "~/Plugins/bootstrap-datepicker/js/bootstrap-datepicker.js",
+                "~/Plugins/bootstrap-datepicker/js/locales/bootstrap-datepicker.tr.js"
+                ));
         }
     }
 }

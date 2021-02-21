@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using DotNetMvc.Contexts;
 using DotNetMvc.Entities;
+using DotNetMvc.Models;
 using DotNetMvc.Services;
 
 namespace DotNetMvc.Controllers
@@ -16,10 +17,12 @@ namespace DotNetMvc.Controllers
     {
         private MoviesContext db = new MoviesContext();
         private ReviewService reviewService;
+        private MovieService movieService;
 
         public ReviewsController()
         {
             reviewService = new ReviewService(db);
+            movieService = new MovieService(db);
         }
 
         // GET: Reviews
@@ -48,8 +51,13 @@ namespace DotNetMvc.Controllers
         // GET: Reviews/Create
         public ActionResult Create()
         {
-            ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name");
-            return View();
+            //ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name");
+            //return View();
+
+            ViewBag.Movies = new SelectList(movieService.GetQuery().ToList(), "Id", "Name");
+            ReviewModel model = new ReviewModel();
+            reviewService.FillAllRatings(model);
+            return View(model);
         }
 
         // POST: Reviews/Create
