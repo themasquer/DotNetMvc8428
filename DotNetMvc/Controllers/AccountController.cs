@@ -5,10 +5,12 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using DotNetMvc.Configs;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using DotNetMvc.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace DotNetMvc.Controllers
 {
@@ -152,6 +154,14 @@ namespace DotNetMvc.Controllers
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                var role = new IdentityUserRole()
+                {
+                    UserId = user.Id,
+                    RoleId = MoviesConfig.UserRoleId
+                };
+                user.Roles.Add(role);
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

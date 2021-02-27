@@ -30,6 +30,25 @@ namespace DotNetMvc.Models
         [DisplayName("Date")] 
         public string DateText => Date.HasValue ? Date.Value.ToString("yyyy/MM/dd", new CultureInfo("en")) : "";
 
+        [DisplayName("Date")]
+        public string DateValue
+        {
+            get
+            {
+                //return Date.HasValue ? Date.Value.ToString("dd.MM.yyyy", new CultureInfo("tr")) : "";
+                return Date.HasValue ? Date.Value.ToString("MM/dd/yyyy", new CultureInfo("en")) : "";
+            }
+            set
+            {
+                Date = null;
+                if (!string.IsNullOrWhiteSpace(value))
+                {
+                    //Date = DateTime.Parse(value, new CultureInfo("tr"));
+                    Date = DateTime.Parse(value, new CultureInfo("en"));
+                }
+            }
+        }
+
         public List<int> AllRatings { get; set; }
     }
 }

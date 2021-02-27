@@ -13,6 +13,7 @@ using DotNetMvc.Services;
 
 namespace DotNetMvc.Controllers
 {
+    [Authorize]
     public class DirectorsController : Controller
     {
         private MoviesContext db = new MoviesContext();
@@ -27,6 +28,7 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: Directors
+        [AllowAnonymous]
         public ActionResult Index()
         {
             //return View(db.Directors.ToList());
@@ -34,6 +36,7 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: Directors/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

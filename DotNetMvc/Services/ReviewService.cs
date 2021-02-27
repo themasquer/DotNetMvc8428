@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using DotNetMvc.Contexts;
 using DotNetMvc.Entities;
@@ -54,7 +55,7 @@ namespace DotNetMvc.Services
             }
         }
 
-        public bool Add(ReviewModel review)
+        public void Add(ReviewModel review)
         {
             try
             {
@@ -68,11 +69,43 @@ namespace DotNetMvc.Services
                 };
                 _db.Reviews.Add(entity);
                 _db.SaveChanges();
-                return true;
             }
             catch (Exception exc)
             {
-                return false;
+                throw exc;
+            }
+        }
+
+        public void Update(ReviewModel review)
+        {
+            try
+            {
+                Review entity = _db.Reviews.Find(review.Id);
+                entity.Content = review.Content;
+                entity.Date = review.Date.Value;
+                entity.MovieId = review.MovieId;
+                entity.Rating = review.Rating;
+                entity.Reviewer = string.IsNullOrWhiteSpace(review.Reviewer) ? "Anonymous" : review.Reviewer;
+                _db.Entry(entity).State = EntityState.Modified;
+                _db.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                throw exc;
+            }
+        }
+
+        public void Delete(int id)
+        {
+            try
+            {
+                Review entity = _db.Reviews.Find(id);
+                _db.Reviews.Remove(entity);
+                _db.SaveChanges();
+            }
+            catch (Exception exc)
+            {
+                throw exc;
             }
         }
     }

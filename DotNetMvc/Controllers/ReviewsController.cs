@@ -13,6 +13,7 @@ using DotNetMvc.Services;
 
 namespace DotNetMvc.Controllers
 {
+    [HandleError]
     public class ReviewsController : Controller
     {
         private MoviesContext db = new MoviesContext();
@@ -26,21 +27,28 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: Reviews
+        //[HandleError]
         public ActionResult Index()
         {
             //var reviews = db.Reviews.Include(r => r.Movie);
             //return View(reviews.ToList());
             return View(reviewService.GetQuery().ToList());
+
+            //throw new Exception("Index test hatası!");
         }
 
         // GET: Reviews/Details/5
+        //[HandleError]
         public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Reviews.Find(id);
+
+            //Review review = db.Reviews.Find(id);
+            ReviewModel review = reviewService.GetQuery().SingleOrDefault(r => r.Id == id);
+
             if (review == null)
             {
                 return HttpNotFound();
@@ -49,6 +57,8 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: Reviews/Create
+        //[HandleError]
+        [Authorize]
         public ActionResult Create()
         {
             //ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name");
@@ -65,6 +75,7 @@ namespace DotNetMvc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         //public ActionResult Create([Bind(Include = "Id,Content,Rating,Reviewer,MovieId")] Review review)
         public ActionResult Create(ReviewModel review)
         {
@@ -85,18 +96,26 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: Reviews/Edit/5
+        [Authorize(Users = "leo@alsac.com,angel@alsac.com")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Review review = db.Reviews.Find(id);
+
+            //Review review = db.Reviews.Find(id);
+            ReviewModel review = reviewService.GetQuery().SingleOrDefault(r => r.Id == id);
+
             if (review == null)
             {
                 return HttpNotFound();
             }
-            ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name", review.MovieId);
+
+            //ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name", review.MovieId);
+            ViewBag.Movies = new SelectList(movieService.GetQuery().ToList(), "Id", "Name", review.MovieId);
+            reviewService.FillAllRatings(review);
+
             return View(review);
         }
 
@@ -105,41 +124,59 @@ namespace DotNetMvc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Content,Rating,Reviewer,MovieId")] Review review)
+        [Authorize(Users = "leo@alsac.com,angel@alsac.com")]
+        //public ActionResult Edit([Bind(Include = "Id,Content,Rating,Reviewer,MovieId")] Review review)
+        public ActionResult Edit(ReviewModel review)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(review).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(review).State = EntityState.Modified;
+                //db.SaveChanges();
+                reviewService.Update(review);
+
                 return RedirectToAction("Index");
             }
-            ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name", review.MovieId);
+
+            //ViewBag.MovieId = new SelectList(db.Movies, "Id", "Name", review.MovieId);
+            ViewBag.Movies = new SelectList(movieService.GetQuery().ToList(), "Id", "Name", review.MovieId);
+            reviewService.FillAllRatings(review);
+
             return View(review);
         }
 
-        // GET: Reviews/Delete/5
+        //// GET: Reviews/Delete/5
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+        //    Review review = db.Reviews.Find(id);
+        //    if (review == null)
+        //    {
+        //        return HttpNotFound();
+        //    }
+        //    return View(review);
+        //}
+
+        // POST: Reviews/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult DeleteConfirmed(int id)
+        //{
+        //    Review review = db.Reviews.Find(id);
+        //    db.Reviews.Remove(review);
+        //    db.SaveChanges();
+        //    return RedirectToAction("Index");
+        //}
+
+        //[Authorize(Roles = "Admin,User")]
+        [Authorize(Roles = "Admin")]
         public ActionResult Delete(int? id)
         {
             if (id == null)
-            {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Review review = db.Reviews.Find(id);
-            if (review == null)
-            {
-                return HttpNotFound();
-            }
-            return View(review);
-        }
-
-        // POST: Reviews/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Review review = db.Reviews.Find(id);
-            db.Reviews.Remove(review);
-            db.SaveChanges();
+            reviewService.Delete(id.Value);
             return RedirectToAction("Index");
         }
 
