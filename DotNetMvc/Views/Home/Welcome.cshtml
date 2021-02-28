@@ -1,1 +1,8 @@
-﻿<div class="jumbotron">Welcome to Movies MVC!</div>
+﻿@if (User.Identity.IsAuthenticated)
+{
+    <div class="jumbotron">Welcome @User.Identity.Name to Movies MVC!</div>
+}
+else
+{
+    <div class="jumbotron">Welcome to Movies MVC!</div>
+}

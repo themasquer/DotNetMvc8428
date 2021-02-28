@@ -60,7 +60,8 @@ namespace DotNetMvc.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            //return View();
+            return View(new LoginViewModel());
         }
 
         //
@@ -141,7 +142,8 @@ namespace DotNetMvc.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            //return View();
+            return View(new RegisterViewModel());
         }
 
         //

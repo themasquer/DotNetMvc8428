@@ -55,6 +55,7 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: Directors/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             //return View();
@@ -67,6 +68,7 @@ namespace DotNetMvc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         //public ActionResult Create([Bind(Include = "Id,Name,Surname,Retired")] Director director)
         //public ActionResult Create([Bind(Include = "Name,Surname,Retired,MovieIds")] DirectorModel director)
         //public ActionResult Create([Bind(Exclude = "Id,Movies")] DirectorModel director)
@@ -85,6 +87,7 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: Directors/Edit/5
+        [Authorize(Roles = "Admin")]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -110,6 +113,7 @@ namespace DotNetMvc.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         //public ActionResult Edit([Bind(Include = "Id,Name,Surname,Retired")] Director director)
         public ActionResult Edit(DirectorModel director)
         {

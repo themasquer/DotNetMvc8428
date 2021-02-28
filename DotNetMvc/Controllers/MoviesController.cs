@@ -32,6 +32,8 @@ namespace DotNetMvc.Controllers
 
         public ActionResult List(int? result = null)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
             if (result.HasValue)
             {
                 if (result == 1)
@@ -44,8 +46,11 @@ namespace DotNetMvc.Controllers
         }
 
         [HttpGet] // Action Method Selector, eğer yazılmazsa default'u HttpGet'tir
-        public ViewResult Create()
+        //public ViewResult Create()
+        public ActionResult Create()
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
             List<int> years = new List<int>();
             for (int year = DateTime.Now.Year + 1; year >= 1930; year--)
             {
@@ -61,6 +66,8 @@ namespace DotNetMvc.Controllers
         [HttpPost]
         public ActionResult Create(string Name, double? BoxOfficeReturn, string ProductionYear, List<int> DirectorIds)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
             //return Content("Movie created: " + "Name = " + Name + ", BoxOfficeReturn = " + BoxOfficeReturn + ", ProductionYear = " + ProductionYear);
             if (string.IsNullOrWhiteSpace(Name) || Name.Length > 250)
                 return Content("Name must not be empty and name must have maximum 250 characters.");
@@ -81,6 +88,8 @@ namespace DotNetMvc.Controllers
 
         public ActionResult Details(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
             //if (id == null)
             if (!id.HasValue)
             {
@@ -104,6 +113,8 @@ namespace DotNetMvc.Controllers
 
         public ActionResult Edit(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             MovieModel model = _movieService.GetQuery().SingleOrDefault(m => m.Id == id);
@@ -132,6 +143,8 @@ namespace DotNetMvc.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit(MovieModel model)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
             if (ModelState.IsValid)
             {
                 bool result = _movieService.Update(model);
@@ -176,7 +189,11 @@ namespace DotNetMvc.Controllers
 
         public ActionResult Delete(int? id)
         {
-            if(id == null)
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return RedirectToAction("Login", "Account");
+            if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             MovieModel model = _movieService.GetQuery().SingleOrDefault(e => e.Id == id);
             return View(model);
@@ -187,6 +204,10 @@ namespace DotNetMvc.Controllers
         [ActionName("Delete")]
         public ActionResult DeleteConfirmed(int? id)
         {
+            if (!User.Identity.IsAuthenticated)
+                return RedirectToAction("Login", "Account");
+            if (!User.IsInRole("Admin"))
+                return RedirectToAction("Login", "Account");
             if (id == null)
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             bool result = _movieService.Delete(id.Value);
