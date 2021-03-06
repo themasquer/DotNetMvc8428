@@ -23,10 +23,15 @@ namespace DotNetMvc.Controllers
         }
 
         // GET: MoviesReport
-        public ActionResult Index()
+        public ActionResult Index(int? OnlyMatchedValue = null)
         {
-            List<MovieReportInnerJoinModel> innerJoinList;
-            innerJoinList = movieReportService.GetInnerJoinQuery().ToList();
+            List<MovieReportInnerJoinModel> innerJoinList = null;
+            List<MovieReportLeftOuterJoinModel> outerJoinList = null;
+            int onlyMaychedValue = OnlyMatchedValue ?? 1;
+            if (onlyMaychedValue == 1)
+                innerJoinList = movieReportService.GetInnerJoinQuery().ToList();
+            else
+                outerJoinList = movieReportService.GetLeftOuterJoinQuery().ToList();
 
             List<SelectListItem> onlyMatchedSelectListItems = new List<SelectListItem>()
             {
@@ -46,6 +51,7 @@ namespace DotNetMvc.Controllers
             MovieReportViewModel model = new MovieReportViewModel()
             {
                 InnerJoinList = innerJoinList,
+                OuterJoinList = outerJoinList,
                 OnlyMatchedSelectList = new SelectList(onlyMatchedSelectListItems, "Value", "Text")
             };
             return View(model);

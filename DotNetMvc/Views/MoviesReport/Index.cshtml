@@ -9,14 +9,17 @@
 <div class="paddingtop">
     <h2>@ViewBag.Title</h2>
 
-    <div class="row paddingtop">
-        <div class="col-1">
-            @Html.DisplayNameFor(model => model.OnlyMatchedValue)
+    @using (Html.BeginForm("Index", "MoviesReport", FormMethod.Get, new { id = "formFilters" }))
+    {
+        <div class="row paddingtop">
+            <div class="col-2">
+                @Html.DisplayNameFor(model => model.OnlyMatchedValue)
+            </div>
+            <div class="col-1">
+                @Html.DropDownListFor(model => model.OnlyMatchedValue, Model.OnlyMatchedSelectList, new { @class = "form-control", id = "ddlOnlyMatched" })
+            </div>
         </div>
-        <div class="col-1">
-            @Html.DropDownListFor(model => model.OnlyMatchedValue, Model.OnlyMatchedSelectList, new { @class = "form-control" })
-        </div>
-    </div>
+    }
     <div class="row paddingtop">
         <div class="col-12">
             @*@if (Model != null && Model.Count > 0)*@
@@ -100,6 +103,86 @@
 
                 </table>
             }
+            else if (Model.OuterJoinList != null && Model.OuterJoinList.Count > 0)
+            {
+                <table class="table table-responsive-lg">
+                    <tr>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().MovieName)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().MovieName)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().MovieProductionYear)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().MovieProductionYear)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().MovieBoxOfficeReturn)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().MovieBoxOfficeReturn)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().DirectorFullName)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().DirectorFullName)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().DirectorRetired)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().DirectorRetired)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().ReviewContent)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().ReviewContent)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().ReviewRating)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().ReviewRating)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().ReviewReviewer)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().ReviewReviewer)
+                        </th>
+                        <th>
+                            @*@Html.DisplayNameFor(model => model.FirstOrDefault().ReviewDate)*@
+                            @Html.DisplayNameFor(model => model.OuterJoinList.FirstOrDefault().ReviewDate)
+                        </th>
+
+                    </tr>
+
+                    @*@foreach (var item in Model)*@
+                    @foreach (var item in Model.OuterJoinList)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MovieName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MovieProductionYear)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.MovieBoxOfficeReturn)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DirectorFullName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.DirectorRetired)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReviewContent)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReviewRating)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReviewReviewer)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ReviewDate)
+                            </td>
+
+                        </tr>
+                    }
+
+                </table>
+            }
             else
             {
                 <p>No records found.</p>
@@ -107,3 +190,13 @@
         </div>
     </div>
 </div>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $("#ddlOnlyMatched").change(function () {
+                $("#formFilters").submit();
+            });
+        });
+    </script>
+}
