@@ -1,15 +1,23 @@
-﻿@*@model List<MovieReportInnerJoinModel>*@
-@model MovieReportViewModel
+﻿@model MovieReportViewModel
 
 @{
     Layout = "~/Views/Shared/_MovieReportLayout.cshtml";
-    ViewBag.Title = "Movie Report";
+    ViewBag.Title = "Movie Report AJAX";
+
+    var ajaxOptions = new AjaxOptions()
+    {
+        AllowCache = false,
+        Url = Url.Action("IndexAjax", "MoviesReportAjax"),
+        HttpMethod = "POST",
+        UpdateTargetId = "divMoviesReport",
+        InsertionMode = InsertionMode.Replace
+    };
 }
 
 <div class="paddingtop">
     <h2>@ViewBag.Title</h2>
 
-    @using (Html.BeginForm("Index", "MoviesReport", FormMethod.Get, new { id = "formFilters", autocomplete = "off" }))
+    @using (Ajax.BeginForm(null, null, ajaxOptions, new { autocomplete = "off" }))
     {
         <div class="row paddingtop">
             <div class="col-2">
@@ -57,28 +65,25 @@
             <div class="offset-2 col-10">
                 <button type="submit" class="btn btn-primary">Search</button>
                 &nbsp;&nbsp;&nbsp;
-                @*<button type="reset" class="btn btn-info">Clear</button>*@
-                @*@Html.ActionLink("Clear", "Index", "MoviesReport", new { @class = "btn btn-info" })*@
                 <a href="@Url.Action("Index")" class="btn btn-info">Clear</a>
-                &nbsp;&nbsp;&nbsp;
-                <a href="@Url.Action("Export")" class="btn btn-success">Export</a>
-                &nbsp;&nbsp;&nbsp;
-                <a href="@Url.Action("Json")" class="btn btn-danger">JSON</a>
             </div>
         </div>
     }
-    @Html.Partial("_MoviesReport", Model)
+
+    <div id="divMoviesReport">
+        @Html.Partial("_MoviesReport", Model)
+    </div>
+
 </div>
 
 @section scripts {
     @Styles.Render("~/Content/datepickercss")
     @Scripts.Render("~/Content/datepickerjs")
 
+    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
     <script>
         $(document).ready(function () {
-            $("#ddlOnlyMatched").change(function () {
-                $("#formFilters").submit();
-            });
             $(".tbDate").datepicker({
                 format: "mm/dd/yyyy",
                 autoclose: true,

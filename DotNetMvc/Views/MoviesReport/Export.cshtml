@@ -1,0 +1,14 @@
+﻿@model MovieReportViewModel
+
+@{
+    Layout = "~/Views/Shared/_MovieReportLayout.cshtml";
+    ViewBag.Title = "Movie Report Export";
+}
+
+<div class="paddingtop">
+    <h2>@ViewBag.Title</h2>
+    @Html.Partial("_MoviesReport", Model)
+</div>
+<div class="paddingtop">
+    <a href="@Url.Action("DownloadExcel", "MoviesReport")" class="btn btn-outline-primary">Download Excel</a>
+</div>
