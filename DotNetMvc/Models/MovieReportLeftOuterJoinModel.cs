@@ -34,6 +34,8 @@ namespace DotNetMvc.Models
         [DisplayName("Review Rating")]
         public int? ReviewRating { get; set; }
 
+        public string ReviewRatingText => ReviewRating == null ? "" : ReviewRating.Value.ToString();
+
         [DisplayName("Reviewer")]
         public string ReviewReviewer { get; set; }
 

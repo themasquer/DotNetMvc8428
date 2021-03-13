@@ -12,34 +12,89 @@
         });
 
         function GetMovieReport() {
-            $.ajax({
-                url: "./MoviesReport/Json",
-                type: "get",
-                cache: false,
-                contentType: "application/json; charset=utf-8",
-                dataType: "json",
-                success: function (response, response_textstatus, response_jqxhr) {
-                    console.log("TextStatus: " + response_textstatus + " jqXHR: " + response_jqxhr.status);
-                    var html = "";
-                    html += "<table>";
+            //$.ajax({
+            //    url: "./MoviesReport/Json",
+            //    type: "get",
+            //    cache: false,
+            //    contentType: "application/json; charset=utf-8",
+            //    dataType: "json",
+            //    success: function (response, response_textstatus, response_jqxhr) {
+            //        console.log("TextStatus: " + response_textstatus + " jqXHR: " + response_jqxhr.status);
+            //        var html = "";
+            //        html += '<table class="table table-responsive-lg">';
+            //        html += "<tr>";
+            //        html += "<th>Movie Name</th>";
+            //        html += "<th>Movie Production Year</th>";
+            //        html += "<th>Movie Box Office Return</th>";
+            //        html += "<th>Director Full Name</th>";
+            //        html += "<th>Is Director Retired?</th>";
+            //        html += "<th>Review Content</th>";
+            //        html += "<th>Review Rating</th>";
+            //        html += "<th>Reviewer</th>";
+            //        html += "<th>Review Date</th>";
+            //        html += "</tr>";
+            //        for (var i = 0; i < response.length; i++) {
+            //            html += "<tr>";
+            //            html += "<td>" + response[i].MovieName + "</td>";
+            //            html += "<td>" + response[i].MovieProductionYear + "</td>";
+            //            html += "<td>" + response[i].MovieBoxOfficeReturn + "</td>";
+            //            html += "<td>" + response[i].DirectorFullName + "</td>";
+            //            html += "<td>" + response[i].DirectorRetired + "</td>";
+            //            html += "<td>" + response[i].ReviewContent + "</td>";
+            //            html += "<td>" + response[i].ReviewRatingText + "</td>";
+            //            html += "<td>" + response[i].ReviewReviewer + "</td>";
+            //            html += "<td>" + response[i].ReviewDate + "</td>";
+            //            html += "</tr>";
+            //        }
+            //        html += "</table>";
+            //        $("#divMovieReport").html(html);
+            //    },
+            //    error: function (response_jqxhr, response_textstatus) {
+            //        console.log("TextStatus: " + response_textstatus + " jqXHR: " + response_jqxhr.status);
+            //    }
+            //});
+            $.getJSON("./MoviesReport/Json", function (list) {
+                var html = "";
+                html += '<table class="table table-responsive-lg">';
+                html += "<tr>";
+                html += "<th>Movie Name</th>";
+                html += "<th>Movie Production Year</th>";
+                html += "<th>Movie Box Office Return</th>";
+                html += "<th>Director Full Name</th>";
+                html += "<th>Is Director Retired?</th>";
+                html += "<th>Review Content</th>";
+                html += "<th>Review Rating</th>";
+                html += "<th>Reviewer</th>";
+                html += "<th>Review Date</th>";
+                html += "</tr>";
+                $.each(list, function (i, item) {
                     html += "<tr>";
-                    html += "<td>Movie Name</td>";
-                    // todo: diğer sütun başlıkları
+                    html += "<td>" + item.MovieName + "</td>";
+                    html += "<td>" + item.MovieProductionYear + "</td>";
+                    html += "<td>" + item.MovieBoxOfficeReturn + "</td>";
+                    html += "<td>" + item.DirectorFullName + "</td>";
+                    html += "<td>" + item.DirectorRetired + "</td>";
+                    html += "<td>" + item.ReviewContent + "</td>";
+                    html += "<td>" + item.ReviewRatingText + "</td>";
+                    html += "<td>" + item.ReviewReviewer + "</td>";
+                    html += "<td>" + item.ReviewDate + "</td>";
                     html += "</tr>";
-                    // todo: for loop içersinde verileri tr'ler içerisinde yazdırma
-                    html += "</table>";
-                },
-                error: function (response_jqxhr, response_textstatus) {
-                    console.log("TextStatus: " + response_textstatus + " jqXHR: " + response_jqxhr.status);
-                }
+                });
+                $("#divMovieReport").html(html);
             });
         }
     </script>
 </head>
 <body>
-    <h2>Movie Report | jQuery AJAX</h2>
-    <div id="divMovieReport">
+    <div class="container-fluid">
+        <h2>Movie Report | jQuery AJAX</h2>
+        <div class="row">
+            <div class="col-12">
+                <div id="divMovieReport">
 
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 </html>

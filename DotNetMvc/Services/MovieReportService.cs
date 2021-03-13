@@ -63,15 +63,15 @@ namespace DotNetMvc.Services
                                                               from subReviewJoin in reviewJoin.DefaultIfEmpty()
                                                               select new MovieReportLeftOuterJoinModel()
                                                               {
-                                                                  DirectorFullName = subDirectorJoin.Name + " " + subDirectorJoin.Surname,
+                                                                  DirectorFullName = (subDirectorJoin.Name + " " + subDirectorJoin.Surname) ?? "",
                                                                   DirectorRetiredValue = subDirectorJoin.Retired,
                                                                   MovieBoxOfficeReturnValue = m.BoxOfficeReturn,
                                                                   MovieName = m.Name,
                                                                   MovieProductionYear = m.ProductionYear,
-                                                                  ReviewContent = subReviewJoin.Content,
+                                                                  ReviewContent = subReviewJoin.Content ?? "",
                                                                   ReviewDateValue = subReviewJoin.Date,
                                                                   ReviewRating = subReviewJoin.Rating,
-                                                                  ReviewReviewer = subReviewJoin.Reviewer
+                                                                  ReviewReviewer = subReviewJoin.Reviewer ?? ""
                                                               };
             return query;
         }
